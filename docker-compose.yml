@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+
+  db:
+    container_name: fla-n-db
+    image: postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+
+  adminer:
+    container_name: fla-n-adminer
+    image: adminer
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+
+  script:
+    container_name: fla-n-script
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"  
+    depends_on:
+      - db
+
+  nginx:
+    container_name: fla-n-nginx
+    image: nginx
+    ports:
+      - "9000:9000"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./src/index.html:/usr/share/nginx/html/index.html
+    depends_on:
+      - script
