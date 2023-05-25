@@ -45,7 +45,11 @@ def script():
     cur.close()
     conn.close()
 
-    return '<H1> TABLE <i>mytable</i> has been created  </H1>'
+    return '<H1> TABLE <i>mytable</i> has been created  </H1> \
+            <br><br> \
+            <a href="http://localhost:8080">http://localhost:8080  -- \
+            <b>Run web DB adminer (user: postgres, pass: postgres, \
+            DB: postgres)</b></a>'
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
